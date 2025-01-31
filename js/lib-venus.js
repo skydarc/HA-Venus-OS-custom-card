@@ -596,43 +596,51 @@ function creatLine(anchorId1, anchorId2, direction_init, isDarkTheme, appendTo) 
 		console.error("Impossible de calculer les coordonnées.");
 		return;
 	}
-	const anchor1isH = anchorId1.includes("L") || anchorId1.includes("R");
-	const anchor2isH = anchorId2.includes("L") || anchorId2.includes("R");
+	
 	let pathData = "";
-	if (anchor1isH && anchor2isH) {
-		const midX = (coords1.x + coords2.x) / 2;
-		// Définition du chemin avec deux courbes symétriques
-		pathData = `
-			M ${coords1.x} ${coords1.y}
-			C ${midX} ${coords1.y}, ${midX} ${coords1.y}, ${midX} ${(coords1.y + coords2.y) / 2}
-			C ${midX} ${coords2.y}, ${midX} ${coords2.y}, ${coords2.x} ${coords2.y}
-		`;
-	} else if (!anchor1isH && !anchor2isH) {
-		const midY = (coords1.y + coords2.y) / 2;
-		// Définition du chemin avec deux courbes : vertical -> horizontal -> vertical
-		pathData = `
-			M ${coords1.x} ${coords1.y} 
-			C ${coords1.x} ${midY}, ${coords1.x} ${midY}, ${(coords1.x + coords2.x)/2} ${midY} 
-			C ${coords2.x} ${midY}, ${coords2.x} ${midY}, ${coords2.x} ${coords2.y}
-		`;
-	} else {
-		if (anchor1isH) {
-			coords1 = getAnchorCoordinates(anchorId2, appendTo);
-			coords2 = getAnchorCoordinates(anchorId1, appendTo);
-		}
-		const midY = (coords1.y + coords2.y) / 2;
-		// Définition du chemin avec un seul virage
-		pathData = `
-			M ${coords1.x} ${coords1.y} 
-			C ${coords1.x} ${coords2.y}, ${coords1.x} ${coords2.y}, ${coords2.x} ${coords2.y}
-		`;
-	}
+	
+	if (coords1.x === coords2.x || coords1.y === coords2.y) {
+        pathData = `M ${coords1.x} ${coords1.y} L ${coords2.x} ${coords2.y}`;
+    } else {
+	
+    	const anchor1isH = anchorId1.includes("L") || anchorId1.includes("R");
+    	const anchor2isH = anchorId2.includes("L") || anchorId2.includes("R");
 
+    	if (anchor1isH && anchor2isH) {
+    		const midX = (coords1.x + coords2.x) / 2;
+    		// Définition du chemin avec deux courbes symétriques
+    		pathData = `
+    			M ${coords1.x} ${coords1.y}
+    			C ${midX} ${coords1.y}, ${midX} ${coords1.y}, ${midX} ${(coords1.y + coords2.y) / 2}
+    			C ${midX} ${coords2.y}, ${midX} ${coords2.y}, ${coords2.x} ${coords2.y}
+    		`;
+    	} else if (!anchor1isH && !anchor2isH) {
+    		const midY = (coords1.y + coords2.y) / 2;
+    		// Définition du chemin avec deux courbes : vertical -> horizontal -> vertical
+    		pathData = `
+    			M ${coords1.x} ${coords1.y} 
+    			C ${coords1.x} ${midY}, ${coords1.x} ${midY}, ${(coords1.x + coords2.x)/2} ${midY} 
+    			C ${coords2.x} ${midY}, ${coords2.x} ${midY}, ${coords2.x} ${coords2.y}
+    		`;
+    	} else {
+    		if (anchor1isH) {
+    			coords1 = getAnchorCoordinates(anchorId2, appendTo);
+    			coords2 = getAnchorCoordinates(anchorId1, appendTo);
+    		}
+    		const midY = (coords1.y + coords2.y) / 2;
+    		// Définition du chemin avec un seul virage
+    		pathData = `
+    			M ${coords1.x} ${coords1.y} 
+    			C ${coords1.x} ${coords2.y}, ${coords1.x} ${coords2.y}, ${coords2.x} ${coords2.y}
+    		`;
+    	}
+    }
+    
 	// Création de l'élément SVG <path>
 	const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
 
 	if (!pathData.includes("NaN")) {
-    path.setAttribute("d", pathData);
+        path.setAttribute("d", pathData);
     } else {
         console.warn("Chemin SVG ignoré car pathData contient NaN");
         return;
@@ -640,7 +648,7 @@ function creatLine(anchorId1, anchorId2, direction_init, isDarkTheme, appendTo) 
     
     path.setAttribute("fill", "none");
 	path.setAttribute("stroke-width", "2");
-	path.setAttribute("filter", "url(#blurEffect)"); // Utilisation du dégradé
+	//path.setAttribute("filter", "url(#blurEffect)"); // Utilisation du dégradé
 	
 	// Créer la boule avec le dégradé
 	const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
