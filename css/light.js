@@ -5,7 +5,7 @@ export function cssDataLight(user) {
             --box-background-color: #ffffff;  	/* Couleur de fond de la box */
             --box-shadow-color: #38619b;      	/* Couleur de l'ombre de la box */
             --anchor-color: #38619b;            /* Couleur du point d'accroche */
-			--line-color: #7cb0ff; 				/* Couleur de la ligne */
+	    --line-color: #4369a2; 				/* Couleur de la ligne */
         }
         
         .db-container {
