@@ -1,0 +1,6 @@
+{
+  "name": "HA Venus OS Custom Card",
+  "filename": "venus.js",
+  "type": "module",
+  "render_readme": true
+}
