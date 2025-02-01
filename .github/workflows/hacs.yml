@@ -4,10 +4,10 @@ name: HACS Validation
 on:
   push:
     branches:
-      - main
+      - hacs
   pull_request:
     branches:
-      - main
+      - hacs
 
 jobs:
   HACS:
@@ -16,4 +16,4 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
       - name: HACS validation
-        uses: hacs/action@main
+        uses: hacs/action@hacs
