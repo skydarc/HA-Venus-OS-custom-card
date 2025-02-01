@@ -3,5 +3,5 @@
   "filename": "Venus-OS-Dashboard.js",
   "homeassistant": "2023.1.0",
   "render_readme": true,
-  "content_in_root": no
+  "content_in_root": false
 }
