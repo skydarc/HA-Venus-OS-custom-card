@@ -4,11 +4,13 @@
 ![Overview](https://github.com/user-attachments/assets/5c450676-acba-4c8b-a558-dc36ff85c208)
 
 <img src="https://github.com/user-attachments/assets/7148bde1-ef7e-4869-b67a-e442fc76ba14" width="300">
+<img src="https://github.com/user-attachments/assets/16c48420-e28a-472e-b3df-fe50922d1e70" width="300">
 
-
-## What is Venus OS Dashboard ?
+## **What is Venus OS Dashboard ?**
 
 Venus OS Dashboard is a card that replicates the look and feel of the Venus OS GUI v2 for [Home Assistant][home-assistant] Dashboard UI.
+
+---
 
 ### Features
 
@@ -20,23 +22,41 @@ Venus OS Dashboard is a card that replicates the look and feel of the Venus OS G
 -   🌓 Supports both light and dark themes
 -   🌎 Internationalization
 
-## Installation
+---
+
+## **Installation**
 
 ### HACS
 
-Not available yet (coming soon).
+*Not available yet (coming soon).*
 
-### Manual
+### Manual Installation
 
-Install this package in www directory (and any sub directory in www) in HA and add "ressource"s in "parameter / dashboard / 3 dots on right upper corner / ressources" and click on "add ressources" bouton.
+1. Place this package inside the www directory (or any subdirectory within www) in Home Assistant.
 
-Type "/local/any_dir/venus/venus.js" in URL (where "any_dir" is the directory where you put "venus" directory). So, if you put "venus" directly in www, youy URL was "/local/venus/venus.js". If you put "venus" in "www/community", your URL was "/local/community/venus/venus.js".
+2. Add the resource in Settings → Dashboards → Three dots (top right) → Resources.
 
-After that, select "Javascript module" and click on "creat".
+3. Click on "Add resource" and enter the following URL:
+  - If you placed the venus directory directly in www, use:
 
-Restart HA and "et voila"... Venus OS Dashboard must be available in lovelace card picker menu.
+```bash
+/local/venus/venus.js
+```
 
-Enjoy ! 
+  - If you placed it in www/community, use:
+```bash
+/local/community/venus/venus.js
+```
+
+4. Select "JavaScript Module" and click "Create".
+
+5. Restart Home Assistant.
+
+And voilà! Venus OS Dashboard should now be available in the Lovelace card picker menu.
+
+Enjoy! 🎉
+
+---
 
 ## Usage
 
