@@ -36,8 +36,8 @@ Venus OS Dashboard is a card that replicates the look and feel of the Venus OS G
 
 2. Add the resource in Settings → Dashboards → Three dots (top right) → Resources.
 
-3. Click on "Add resource" and enter the following URL:
-  - If you placed the venus directory directly in www, use:
+3. Click on "Add resource" and enter the following URL :
+  - If you placed the venus directory directly in www, use :
 
 ```bash
 /local/venus/venus.js
