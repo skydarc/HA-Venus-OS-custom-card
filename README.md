@@ -23,9 +23,17 @@ Venus OS Dashboard is a card to clone aspect of Venus OS gui-v2 for [Home Assist
 
 Not available for now (hope sooner)
 
-
 ### Manual
 
+Install this package in www directory (and any sub directory in www) in HA and add "ressource"s in "parameter / dashboard / 3 dots on right upper corner / ressources" and click on "add ressources" bouton.
+
+Type "/local/any_dir/venus/venus.js" in URL (where "any_dir" is the directory where you put "venus" directory). So, if you put "venus" directly in www, youy URL was "/local/venus/venus.js". If you put "venus" in "www/community", your URL was "/local/community/venus/venus.js".
+
+After that, select "Javascript module" and click on "creat".
+
+Restart HA and "et voila"... Venus OS Dashboard must be available in lovelace card picker menu.
+
+Enjoy ! 
 
 ## Usage
 
