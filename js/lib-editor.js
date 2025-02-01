@@ -10,7 +10,7 @@ export const eventHandlers = new WeakMap();
 /**************************************/
 let translations = {}; // Stocke les traductions chargées
 
-export async function loadTranslations(appendTo) {
+/*export async function loadTranslations(appendTo) {
     const lang = appendTo._hass?.language || "en"; // Langue HA, ou "en" par défaut
     try {
         const response = await fetch(`/local/venus/lang/${lang}.json`); // Charge le fichier de langue
@@ -19,6 +19,18 @@ export async function loadTranslations(appendTo) {
         console.warn(`⚠️ Impossible de charger la langue ${lang}, fallback en anglais.`);
         const response = await fetch(`/local/venus/lang/en.json`);
         translations = await response.json();
+    }
+}*/
+
+export async function loadTranslations(appendTo) {
+    const lang = appendTo._hass?.language || "en"; // Langue HA, ou "en" par défaut
+    try {
+        const response = await import(`../lang/${lang}.js`);
+        translations = response.default;
+    } catch (error) {
+        console.error("Erreur de chargement de la langue :", error);
+        const response = await import(`../lang/en.js`);
+        translations = {};
     }
 }
 
