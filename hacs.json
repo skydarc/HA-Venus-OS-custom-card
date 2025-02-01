@@ -1,6 +1,8 @@
 {
-  "name": "HA Venus OS Custom Card",
+  "name": "Venus OS Dashboard",
   "filename": "venus.js",
-  "type": "module",
+  "domains": ["lovelace"],
+  "homeassistant": "2023.1.0",
+  "country": "all",
   "render_readme": true
 }

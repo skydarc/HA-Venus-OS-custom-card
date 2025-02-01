@@ -1,0 +1,13 @@
+{
+  "name": "venus-os-dashboard",
+  "version": "0.1.10",
+  "description": "A custom Lovelace card for Venus OS Dashboard",
+  "main": "venus.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/skydarc/HA-Venus-OS-custom-card.git"
+  },
+  "keywords": ["home-assistant", "lovelace", "venus-os", "victron"],
+  "author": "skydarc",
+  "license": "MIT"
+}
