@@ -3,25 +3,28 @@
 
 ![Overview](https://github.com/user-attachments/assets/5c450676-acba-4c8b-a558-dc36ff85c208)
 
+<img src="https://github.com/user-attachments/assets/7148bde1-ef7e-4869-b67a-e442fc76ba14" width="300">
+
+
 ## What is Venus OS Dashboard ?
 
-Venus OS Dashboard is a card to clone aspect of Venus OS gui-v2 for [Home Assistant][home-assistant] Dashboard UI.
+Venus OS Dashboard is a card that replicates the look and feel of the Venus OS GUI v2 for [Home Assistant][home-assistant] Dashboard UI.
 
 ### Features
 
--   🛠 Editor for all options (no need to edit `yaml`)
+-   🛠  Full editor for all options (no need to edit `yaml`)
 -   😍 Icon picker
 -   ⚓ Entity picker
--   🚀 0 dependencies : no need to install another card.
+-   🚀 Zero dependencies : no need to install additional cards.
 -   🌈 Based on Material UI
--   🌓 Light and dark theme support
+-   🌓 Supports both light and dark themes
 -   🌎 Internationalization
 
 ## Installation
 
 ### HACS
 
-Not available for now (hope sooner)
+Not available yet (coming soon).
 
 ### Manual
 
