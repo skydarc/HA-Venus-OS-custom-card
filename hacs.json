@@ -1,9 +1,9 @@
 {
   "name": "Venus OS Dashboard",
-  "filename": "venus.js",
-  "domains": ["lovelace"],
+  "author": "skydarc",
+  "description": "Custom card for Home Assistant that mimics the Venus OS GUI v2.",
   "category": "lovelace",
+  "domains": ["lovelace"],
   "homeassistant": "2023.1.0",
-  "country": "all",
   "render_readme": true
 }
