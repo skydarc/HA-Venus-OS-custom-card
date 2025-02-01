@@ -4,10 +4,10 @@ name: HACS Validation
 on:
   push:
     branches:
-      - hacs
+      - main
   pull_request:
     branches:
-      - hacs
+      - main
 
 jobs:
   HACS:
