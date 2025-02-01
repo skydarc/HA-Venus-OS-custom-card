@@ -2,5 +2,17 @@
   "name": "Venus OS Dashboard",
   "filename": "Venus-OS-Dashboard.js",
   "homeassistant": "2023.1.0",
-  "render_readme": true
+  "render_readme": true,
+  "files": [
+    "Venus-OS-Dashboard.js",
+    "venus-editor.js",
+    "js/lib-editor.js",
+    "js/lib-venus.js",
+    "css/dark.js",
+    "css/light.js",
+    "css/editor.js",
+    "ressources/preview.jpg",
+    "lang/en.js",
+    "lang/fr.js"
+  ]
 }
