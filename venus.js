@@ -1,7 +1,6 @@
 /*
 
  switch auto theme clair/sombre ou choix manuel
- 
  donc onglet param en plus
 
 */
