@@ -30,7 +30,7 @@ class venusOsDashboardCard extends HTMLElement {
     
     static cycle = 0;
     
-	constructor() {
+    constructor() {
         super();
         
         // Écouter l'événement personnalisé
@@ -41,21 +41,8 @@ class venusOsDashboardCard extends HTMLElement {
         
         this._initializeTheme(); // Appel de la fonction une seule fois lors de l'instanciation
     }
-
-    _initializeTheme() {
-    
-        const backgroundColor = getComputedStyle(document.documentElement).getPropertyValue('--primary-background-color').trim();
-        
-        if (!customElements.get("ha-entity-picker")) {
-            const huiEntitiesCard = customElements.get("hui-entities-card");
-            if (huiEntitiesCard) {
-                huiEntitiesCard.getConfigElement();
-            }
-        }
-        
-    }
   
-	setConfig(config) {
+    setConfig(config) {
 
         this.config = config;
     
