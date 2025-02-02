@@ -1,4 +1,10 @@
 /**********************************************/
+/* "variable" permettant de lister les panels */
+/* qui sont "expended"                        */
+/**********************************************/
+let expandedPanelsState = new Set();
+
+/**********************************************/
 /* "variable" permettant de lister les events */
 /* sur les objets et eviter de les recrer     */
 /**********************************************/
@@ -9,18 +15,6 @@ export const eventHandlers = new WeakMap();
 /* de l'editeur graphique             */
 /**************************************/
 let translations = {}; // Stocke les traductions chargées
-
-/*export async function loadTranslations(appendTo) {
-    const lang = appendTo._hass?.language || "en"; // Langue HA, ou "en" par défaut
-    try {
-        const response = await fetch(`/local/venus/lang/${lang}.json`); // Charge le fichier de langue
-        translations = await response.json();
-    } catch (error) {
-        console.warn(`⚠️ Impossible de charger la langue ${lang}, fallback en anglais.`);
-        const response = await fetch(`/local/venus/lang/en.json`);
-        translations = await response.json();
-    }
-}*/
 
 export async function loadTranslations(appendTo) {
     const lang = appendTo._hass?.language || "en"; // Langue HA, ou "en" par défaut
@@ -50,7 +44,7 @@ export function tab1Render(appendTo) {
     const editorDiv = document.createElement('div');
     editorDiv.classList.add('editor');
     
-    // Mode Demo
+    /*// Mode Demo
     const demoRow = document.createElement('div');
     demoRow.classList.add('row');
     const demoLabel = document.createElement('div');
@@ -64,7 +58,7 @@ export function tab1Render(appendTo) {
     demoSwitchContainer.appendChild(demoSwitch);
     demoRow.appendChild(demoLabel);
     demoRow.appendChild(demoSwitchContainer);
-    editorDiv.appendChild(demoRow);
+    editorDiv.appendChild(demoRow);*/
     
     // Choix du thème
     const themeRow = document.createElement('div');
@@ -254,7 +248,7 @@ export function tabColRender(col, appendTo) {
 /************************************************/
 export function renderSubTabContent(col, appendTo) {
     const subTabContent = appendTo.shadowRoot.querySelector('#subTab-content');
-    const boxId = `${col}-${appendTo._currentSubTab + 1}`;
+    const boxId = `${col}-${appendTo._currentSubTab+1}`;
     subtabRender(boxId, appendTo._config, appendTo._hass, appendTo);
     attachInputs(appendTo); // Appeler la fonction attachInputs déjà présente
 }
@@ -297,7 +291,7 @@ export function subtabRender(box, config, hass, appendTo) {
     subTabContent.innerHTML = `
         
         <!-- ICON ET NOM -->
-        <ha-expansion-panel expanded outlined header="${t("subtabRender", "header_title")}">
+        <ha-expansion-panel expanded outlined id="subPanel_header" header="${t("subtabRender", "header_title")}">
             <div class="col inner">
                 <div class="row">
                     <ha-icon-picker
@@ -318,7 +312,7 @@ export function subtabRender(box, config, hass, appendTo) {
         </ha-expansion-panel>
         
         <!-- ENTITE 1 et 2-->
-        <ha-expansion-panel outlined header="${t("subtabRender", "sensor_title")}">
+        <ha-expansion-panel outlined id="subPanel_entities" header="${t("subtabRender", "sensor_title")}">
             <div class="col inner">
                 <ha-entity-picker
                     label="${t("subtabRender", "entity_choice")}"
@@ -354,7 +348,7 @@ export function subtabRender(box, config, hass, appendTo) {
         </ha-expansion-panel>
         
         <!-- HEADER ET FOOTER 1 -->
-        <ha-expansion-panel outlined header="${t("subtabRender", "header_footer_title")}">
+        <ha-expansion-panel outlined id="subPanel_entities2" header="${t("subtabRender", "header_footer_title")}">
             <div class="col inner">
                 <div class="row">
                     <ha-entity-picker
@@ -390,7 +384,7 @@ export function subtabRender(box, config, hass, appendTo) {
         </ha-expansion-panel>
         
         <!-- ANCHORS -->
-        <ha-expansion-panel outlined header="${t("subtabRender", "anchor_title")}">
+        <ha-expansion-panel outlined id="subPanel_anchors" header="${t("subtabRender", "anchor_title")}">
             <div class="col inner">
                 <div class="row">
                     <div class="col cell">
@@ -454,6 +448,14 @@ export function subtabRender(box, config, hass, appendTo) {
             <div id="link-container" class="col noGap"></div>
         </div>
     `;
+    
+    // Réappliquer l'attribut "expanded" aux panneaux qui l'avaient avant
+    expandedPanelsState.forEach(id => {
+        const panel = subTabContent.querySelector(`ha-expansion-panel#${id}`);
+        if (panel) {
+            panel.setAttribute("expanded", "");
+        }
+    });
             
     const iconPicker = subTabContent.querySelector('#device_icon');
     const nameField = subTabContent.querySelector('#device_name');
@@ -517,6 +519,21 @@ export function subtabRender(box, config, hass, appendTo) {
     addLinkButton.addEventListener('click', (e) => {
         addLink(linkContainer.children.length+1, box, hass, thisAllAnchors, OtherAllAnchors, appendTo);
     });
+    
+    function trackExpansionState() {
+    subTabContent.querySelectorAll("ha-expansion-panel").forEach(panel => {
+            panel.addEventListener("expanded-changed", (event) => {
+                if (event.detail.expanded) {
+                    expandedPanelsState.add(panel.id); // Ajoute l'ID du panel s'il est expandu
+                } else {
+                    expandedPanelsState.delete(panel.id); // Supprime s'il est refermé
+                }
+            });
+        });
+    }
+    
+    // Appelle cette fonction au chargement initial pour capturer les événements
+    trackExpansionState();
 }
 
 export function getAllAnchorsExceptCurrent(config, currentBox) {
@@ -596,12 +613,12 @@ export function addLink(index, box, hass, thisAllAnchors, OtherAllAnchors, appen
     `;
     
     const startLink = panel.querySelector(`#start_link_${index}`);
-    startLink.value = appendTo._config.devices?.[box]?.link?.[index]?.start ?? "";
     startLink.items = thisAllAnchors.map(anchor => ({ label: anchor, value: anchor })); // Convertit en objets
+    startLink.value = appendTo._config.devices?.[box]?.link?.[index]?.start ?? "";
     
     const endLink = panel.querySelector(`#end_link_${index}`);
-    endLink.value = appendTo._config.devices?.[box]?.link?.[index]?.end;
     endLink.items = OtherAllAnchors.map(anchor => ({ label: anchor, value: anchor }));
+    endLink.value = appendTo._config.devices?.[box]?.link?.[index]?.end ?? "";
     
     const entityLink = panel.querySelector(`#entity_link_${index}`);
     entityLink.hass = hass;
@@ -1086,8 +1103,8 @@ export function attachLinkClick(renderTabContent, appendTo) {
         const handleClick = (e) => {
             const tab = parseInt(e.currentTarget.getAttribute('data-tab'), 10);
             appendTo._currentTab = tab;
-            renderTabContent(appendTo); // Appelle la fonction passée en paramètre
             appendTo._currentSubTab = 0;
+            renderTabContent(appendTo); // Appelle la fonction passée en paramètre
         };
 
         link.addEventListener("click", handleClick);

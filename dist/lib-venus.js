@@ -20,39 +20,31 @@ let editorOpen = false;
 /************************************************/
 export function baseRender(config, appendTo) {
     
-    if(config.demo === true) { // si mode DEMO, affichage du mode (une image stockée dans ressources)
-		    
-	    appendTo.innerHTML = `
-            <div id="dashboard" class="dashboard">
-        		<img class="fit-picture" src="preview.jpg"/>
-            </div>
-		`;
-	} else { // sinon creation du squelette de la carte
-		appendTo.innerHTML = `
-		    <div id="dashboard" class="dashboard">
-        		<svg id="svg_container" class="line" viewBox="0 0 1000 600" width="100%" height="100%">
-        			<defs>
-        				<filter id="blurEffect">
-        					<feGaussianBlur in="SourceGraphic" stdDeviation="1"/> <!-- Ajuste stdDeviation pour plus ou moins de flou -->
-        				</filter>
-        				<radialGradient id="gradientDark" cx="50%" cy="50%" r="50%">
-        					<stop offset="0%" stop-color="#ffffff" stop-opacity="1"></stop>
-        					<stop offset="90%" stop-color="#ffffff" stop-opacity="0"></stop>
-        				</radialGradient>
-        				<radialGradient id="gradientLight" cx="50%" cy="50%" r="50%">
-        					<stop offset="0%" stop-color="#000000" stop-opacity="1"></stop>
-        					<stop offset="90%" stop-color="#000000" stop-opacity="0"></stop>
-        				</radialGradient>
-        			</defs>
-            		<g id="path_container" class="balls"></g>
-        			<g id="circ_container" class="lines"></g>
-        		</svg>
-                <div id="column-1" class="column column-1"></div>
-                <div id="column-2" class="column column-2"></div>
-                <div id="column-3" class="column column-3"></div>
-            </div>
-		`;
-	}
+    appendTo.innerHTML = `
+	    <div id="dashboard" class="dashboard">
+    		<svg id="svg_container" class="line" viewBox="0 0 1000 600" width="100%" height="100%">
+    			<defs>
+    				<filter id="blurEffect">
+    					<feGaussianBlur in="SourceGraphic" stdDeviation="1"/> <!-- Ajuste stdDeviation pour plus ou moins de flou -->
+    				</filter>
+    				<radialGradient id="gradientDark" cx="50%" cy="50%" r="50%">
+    					<stop offset="0%" stop-color="#ffffff" stop-opacity="1"></stop>
+    					<stop offset="90%" stop-color="#ffffff" stop-opacity="0"></stop>
+    				</radialGradient>
+    				<radialGradient id="gradientLight" cx="50%" cy="50%" r="50%">
+    					<stop offset="0%" stop-color="#000000" stop-opacity="1"></stop>
+    					<stop offset="90%" stop-color="#000000" stop-opacity="0"></stop>
+    				</radialGradient>
+    			</defs>
+        		<g id="path_container" class="balls"></g>
+    			<g id="circ_container" class="lines"></g>
+    		</svg>
+            <div id="column-1" class="column column-1"></div>
+            <div id="column-2" class="column column-2"></div>
+            <div id="column-3" class="column column-3"></div>
+        </div>
+	`;
+
 }
 
 /**********************************/
@@ -953,5 +945,216 @@ async function fetchHistoricalData(entityId, periodInHours = 24, hass, numSegmen
         console.error('Erreur lors de la récupération de l’historique :', error);
         return false;
     }
+}
+
+
+
+
+
+export const getEntityNames = (entities) => {
+  return entities?.split("|").map((p) => p.trim());
+};
+
+export const getFirstEntityName = (entities) => {
+  const names = getEntityNames(entities);
+  return names.length > 0 ? names[0] : "";
+};
+
+
+export function getDefaultConfig(hass) {
+    
+  /*function checkStrings(entiyId: string, testStrings: string[]): boolean {
+    const firstId = getFirstEntityName(entiyId);
+    const friendlyName = hass.states[firstId].attributes.friendly_name;
+    return testStrings.some((str) => firstId.includes(str) || friendlyName?.includes(str));
+  }
+  
+  const powerEntities = Object.keys(hass.states).filter((entityId) => {
+    const stateObj = hass.states[getFirstEntityName(entityId)];
+    const isAvailable =
+      (stateObj.state && stateObj.attributes && stateObj.attributes.device_class === "power") || stateObj.entity_id.includes("power");
+    return isAvailable;
+  });
+
+  const gridPowerTestString = ["grid", "utility", "net", "meter"];
+  const solarTests = ["solar", "pv", "photovoltaic", "inverter"];
+  const batteryTests = ["battery"];
+  const batteryPercentTests = ["battery_percent", "battery_level", "state_of_charge", "soc", "percentage"];
+  const firstGridPowerEntity = powerEntities.filter((entityId) => checkStrings(entityId, gridPowerTestString))[0];
+  const firstSolarPowerEntity = powerEntities.filter((entityId) => checkStrings(entityId, solarTests))[0];
+  const firstBatteryPowerEntity = powerEntities.filter((entityId) => checkStrings(entityId, batteryTests))[0];
+
+  const percentageEntities = Object.keys(hass.states).filter((entityId) => {
+    const stateObj = hass.states[entityId];
+    const isAvailable = stateObj && stateObj.state && stateObj.attributes && stateObj.attributes.unit_of_measurement === "%";
+    return isAvailable;
+  });*/
+
+  /*const firstBatteryPercentageEntity = percentageEntities.filter((entityId) => checkStrings(entityId, batteryPercentTests))[0];
+  return {
+    entities: {
+      battery: {
+        entity: firstBatteryPowerEntity ?? "",
+        state_of_charge: firstBatteryPercentageEntity ?? "",
+      },
+      grid: firstGridPowerEntity ? { entity: firstGridPowerEntity } : undefined,
+      solar: firstSolarPowerEntity ? { entity: firstSolarPowerEntity, display_zero_state: true } : undefined,
+    }
+  };*/
+  
+  
+    const powerEntities = Object.keys(hass.states).filter((entityId) => {
+        const stateObj = hass.states[getFirstEntityName(entityId)];
+        const isAvailable =
+          (stateObj.state && stateObj.attributes && stateObj.attributes.device_class === "power") || stateObj.entity_id.includes("power");
+        return isAvailable;
+    });
+  
+    function checkStrings(entiyId, testStrings) {
+        const firstId = getFirstEntityName(entiyId);
+        const friendlyName = hass.states[firstId].attributes.friendly_name;
+        return testStrings.some((str) => firstId.includes(str) || friendlyName?.includes(str));
+    }
+  
+    const gridPowerTestString = ["grid", "utility", "net", "meter"];
+    const solarTests = ["solar", "pv", "photovoltaic", "inverter"];
+    const batteryTests = ["battery"];
+    const batteryPercentTests = ["battery_percent", "battery_level", "state_of_charge", "soc", "percentage"];
+    const firstGridPowerEntity = powerEntities.filter((entityId) => checkStrings(entityId, gridPowerTestString))[0];
+    const firstSolarPowerEntity = powerEntities.filter((entityId) => checkStrings(entityId, solarTests))[0];
+    
+    const currentEntities = Object.keys(hass.states).filter((entityId) => {
+        const stateObj = hass.states[entityId];
+        const isAvailable = stateObj && stateObj.state && stateObj.attributes && stateObj.attributes.unit_of_measurement === "A";
+        return isAvailable;
+    });
+    const percentageEntities = Object.keys(hass.states).filter((entityId) => {
+        const stateObj = hass.states[entityId];
+        const isAvailable = stateObj && stateObj.state && stateObj.attributes && stateObj.attributes.unit_of_measurement === "%";
+        return isAvailable;
+    });
+    const firstBatteryPercentageEntity = percentageEntities.filter((entityId) => checkStrings(entityId, batteryPercentTests))[0];
+    
+    const firstCurrentEntity = currentEntities.filter((entityId) => checkStrings(entityId, batteryTests))[0];
+  
+    return {
+        param: {
+            boxCol1: 2,
+            boxCol3: 2,
+        },
+        theme: "dark",
+        styles: {
+            header: 10,
+            sensor: 16,
+        },
+        devices: {
+            "1-1": {
+                icon: "mdi:transmission-tower",
+                name: "Grid",
+                entity: firstGridPowerEntity ?? "",
+                anchors: "R-1",
+                link: {
+                    "1":{
+                        start: "R-1",
+                        end: "2-1_L-1",
+                    },
+                },
+            },
+            "1-2": {
+                icon: "mdi:battery-charging",
+                name: "Battery",
+                entity: firstBatteryPercentageEntity ?? "",
+                anchors: "R-1",
+                gauge: "true",
+                link: {
+                    "1":{
+                        start: "R-1",
+                        end: "2-1_B-1",
+                        entity: firstCurrentEntity ?? "",
+                    },
+                },
+            },
+            "2-1": {
+                icon: "mdi:cellphone-charging",
+                name: "Multiplus",
+                anchors: "L-1, B-2, R-1",
+            },
+            "3-1": {
+                icon: "mdi:home-lightning-bolt",
+                name: "Home",
+                entity: firstGridPowerEntity ?? "",
+                anchors: "L-1",
+                link: {
+                    "1":{
+                        start: "L-1",
+                        end: "2-1_R-1",
+                    },
+                },
+            },
+            "3-2": {
+                icon: "mdi:weather-sunny",
+                name: "Solar",
+                entity: firstSolarPowerEntity ?? "",
+                anchors: "L-1",
+                link: {
+                    "1":{
+                        start: "L-1",
+                        end: "2-1_B-2",
+                        entity: firstSolarPowerEntity ?? "",
+                        inv: "true",
+                    },
+                },
+            },
+        },
+        
+        
+        /*
+        
+        devices:
+  1-1:
+    icon: mdi:transmission-tower
+    name: Grid
+    anchors: R-1
+    link:
+      "1":
+        start: R-1
+        end: 2-1_L-1
+  1-2:
+    icon: mdi:battery-charging
+    name: Battery
+    anchors: R-1
+    link:
+      "1":
+        start: R-1
+        end: 2-1_B-1
+  2-1:
+    icon: mdi:cellphone-charging
+    name: Multiplus
+    anchors: L-1, B-2, R-1
+  3-1:
+    icon: mdi:home-lightning-bolt
+    name: Home
+    anchors: L-1
+    link:
+      "1":
+        start: L-1
+        end: 2-1_R-1
+  3-2:
+    icon: mdi:weather-sunny
+    name: Solar
+    anchors: L-1
+    link:
+      "1":
+        start: L-1
+        end: 2-1_B-2
+        
+        */
+  }
+  
+  
+  
+  
+  
+  
 }
 
