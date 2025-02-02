@@ -270,7 +270,7 @@ export function subtabRender(box, config, hass, appendTo) {
     let leftQty = 0, topQty = 0, bottomQty = 0, rightQty = 0;
     
     // Vérifier si les ancres existent dans la configuration
-    const anchors = config.devices[box]?.anchors ? config.devices[box].anchors.split(', ') : [];
+    const anchors = config?.devices?.[box]?.anchors ? config?.devices?.[box]?.anchors.split(', ') : [];
     
     let thisAllAnchors = [];
 
@@ -477,14 +477,14 @@ export function subtabRender(box, config, hass, appendTo) {
     anchorRight.value = rightQty;
     
     // Après avoir inséré le contenu, configure les valeurs pour ha-icon-picker et ha-entity-picker
-    nameField.value = config.devices[box]?.name ?? "";
-    iconPicker.value = config.devices[box]?.icon ?? ""; 
-    entityPicker.value = config.devices[box]?.entity ?? "";
-    entity2Picker.value = config.devices[box]?.entity2 ?? "";
-    headerEntity.value = config.devices[box]?.headerEntity ?? "";
-    footerEntity1.value = config.devices[box]?.footerEntity1 ?? "";
-    footerEntity2.value = config.devices[box]?.footerEntity2 ?? "";
-    footerEntity3.value = config.devices[box]?.footerEntity3 ?? "";
+    nameField.value = config?.devices?.[box]?.name ?? "";
+    iconPicker.value = config?.devices?.[box]?.icon ?? ""; 
+    entityPicker.value = config?.devices?.[box]?.entity ?? "";
+    entity2Picker.value = config?.devices?.[box]?.entity2 ?? "";
+    headerEntity.value = config?.devices?.[box]?.headerEntity ?? "";
+    footerEntity1.value = config?.devices?.[box]?.footerEntity1 ?? "";
+    footerEntity2.value = config?.devices?.[box]?.footerEntity2 ?? "";
+    footerEntity3.value = config?.devices?.[box]?.footerEntity3 ?? "";
     
     iconPicker.hass = hass; // Passe l'objet directement ici
     entityPicker.hass = hass; // Passe l'objet directement ici
@@ -494,7 +494,7 @@ export function subtabRender(box, config, hass, appendTo) {
     footerEntity2.hass = hass; // Passe l'objet directement ici
     footerEntity3.hass = hass; // Passe l'objet directement ici
            
-    if (config.devices[box]?.graph === true) graphSwitch.setAttribute('checked', '');
+    if (config?.devices?.[box]?.graph === true) graphSwitch.setAttribute('checked', '');
     
     const entity = hass.states?.[entityPicker.value];
     const unit = entity?.attributes?.unit_of_measurement;
