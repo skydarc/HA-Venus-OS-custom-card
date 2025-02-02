@@ -7,7 +7,7 @@
 */
 
 console.info(
-  "%c 🗲 %c - %cVenus OS Dashboard%c - %c 🗲 %c v0.1.10 ",
+  "%c 🗲 %c - %cVenus OS Dashboard%c - %c 🗲 %c v0.1.16 ",
   "color: white; font-weight: bold; background: black",
   "color: orange; font-weight: bold; background: blue; font-weight: bold;",
   "color: white; font-weight: bold; background: blue; text-decoration: underline; text-decoration-color: orange; text-decoration-thickness: 5px; text-underline-offset: 2px;",
@@ -166,15 +166,20 @@ class venusOsDashboardCard extends HTMLElement {
 	
 	// Méthode pour générer l'élément de configuration
     static getConfigElement(hass) {
-        const editor = document.createElement('venus-os-dashboard-editor');
+        const editor = document.createElement('venus-os-editor');
         editor.hass = hass; // Passe explicitement l'instance de hass à l'éditeur
         return editor;
     }
     
-    static getStubConfig() {
+    /*static getStubConfig() {
         return { 
             demo: true,
         };
+    }*/
+    
+    static getStubConfig(hass) {
+        // get available power entities
+        return libVenus.getDefaultConfig(hass);
     }
 	
 	// Méthode pour récupérer la taille de la carte
