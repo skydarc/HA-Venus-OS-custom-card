@@ -25,11 +25,11 @@ let translations = {}; // Stocke les traductions chargées
 export async function loadTranslations(appendTo) {
     const lang = appendTo._hass?.language || "en"; // Langue HA, ou "en" par défaut
     try {
-        const response = await import(`../lang/${lang}.js`);
+        const response = await import(`./lang-${lang}.js`);
         translations = response.default;
     } catch (error) {
         console.error("Erreur de chargement de la langue :", error);
-        const response = await import(`../lang/en.js`);
+        const response = await import(`./lang-en.js`);
         translations = {};
     }
 }
