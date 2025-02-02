@@ -24,7 +24,7 @@ export function baseRender(config, appendTo) {
 		    
 	    appendTo.innerHTML = `
             <div id="dashboard" class="dashboard">
-        		<img class="fit-picture" src="/local/venus/ressources/preview.jpg"/>
+        		<img class="fit-picture" src="preview.jpg"/>
             </div>
 		`;
 	} else { // sinon creation du squelette de la carte
